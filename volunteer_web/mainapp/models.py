@@ -1,29 +1,28 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class Student(models.Model):
-	name = models.CharField()
-	number = models.CharField(max_length=8)
-	password = models.CharField(max_length=8)
+
+class Student(User):
+	student_number = models.CharField(max_length=8)
 
 	male = 'M'
 	female = 'F'
-	sex_choices = (
-		(male, 'male')
-		(female, 'female')
-	)
+	sex_choices = [
+		(male, 'male'),
+		(female, 'female'),
+	]
 	sex = models.CharField(
 		max_length=2,
-		choices = sex_choices,
-		default = male
+		choices=sex_choices,
+		default=male,
 	)
 
-	hours_got = models.IntergerField()
+	hours_got = models.IntegerField()
 	misconduct = models.BooleanField()
-	GPA_ranking = models.IntergerField()
+	GPA_ranking = models.IntegerField()
 
 
-
-class Student_job(models.Model):
+class StudentJob(models.Model):
 	student = models.ForeignKey('Student')
 	job = models.ForeignKey('Job')
 
@@ -37,32 +36,28 @@ class Student_job(models.Model):
 		(Unapproved, 'unapproved'),
 		(Finished, "finished")
 	)
-	status = models.IntergerField(
-		choices = status_choices,
-		default = Applied
+	status = models.IntegerField(
+		choices=status_choices,
+		default=Applied,
 	)
 
-	written_info = models.CharField(max_length = 200)
+	written_info = models.CharField(max_length=200, blank=True, null=True)
 
 
-
-class Teacher(models.Model):
-	user = models.CharField()
-	password = models.CharField(max_length=8)
+class Teacher(User):
+	pass
 
 
-class Club(models.Model):
-	name = models.CharField()
-	number = models.CharField(max_length=8)
-	password = models.CharField(max_length=8)
+class Club(User):
+	club_number = models.CharField(max_length=8)
 
 
 class Job(models.Model):
 	club = models.ForeignKey('Club')
-	title = models.CharField()
-	location = models.CharField()
+	title = models.CharField(max_length=200)
+	location = models.CharField(max_length=200)
 	time = models.DateTimeField()
-	hours = models.IntergerField()
+	hours = models.IntegerField(blank=True, null=True)
 	deadline = models.DateTimeField()
-	additional_info = models.CharField(max_length=200)
+	additional_info = models.CharField(max_length=200, blank=True, null=True)
 	whether_approved = models.BooleanField(default=True)
