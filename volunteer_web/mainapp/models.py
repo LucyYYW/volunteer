@@ -61,8 +61,8 @@ class Job(models.Model):
 	total = models.IntegerField(blank=True, null=True)
 	
 	whether_approved_choices = (
-		("unknown",'unknown')
-		("yes","approved")
-		("no","no")
+		("unknown",'unknown'),
+		("yes","approved"),
+		("no","no"),
 	)
 	whether_approved = models.CharField(choices=whether_approved_choices, max_length = 10, default="unknown")
