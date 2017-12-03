@@ -21,12 +21,18 @@ class Student(User):
 	misconduct = models.BooleanField()
 	GPA_ranking = models.IntegerField()
 
+	class Meta:
+		verbose_name = 'Student'
+		verbose_name_plural = 'Students'
+
+	def __str__(self):
+		return self.student_number
+
 
 class StudentJob(models.Model):
 	student = models.ForeignKey('Student')
 	job = models.ForeignKey('Job')
 
-	
 	status_choices = (
 		("applied", "applied"),
 		("approved", "approved"),
@@ -41,6 +47,13 @@ class StudentJob(models.Model):
 
 	written_info = models.CharField(max_length=200, blank=True, null=True)
 
+	def __str__(self):
+		return str(self.student.student_number) + " " + str(self.job.title)
+
+	def student_ranking(self):
+		return self.student.GPA_ranking
+	student_ranking.admin_order_field = 'student__GPA_ranking'
+
 
 class Teacher(User):
 	pass
@@ -48,6 +61,13 @@ class Teacher(User):
 
 class Club(User):
 	club_number = models.CharField(max_length=8)
+	
+	class Meta:
+		verbose_name = 'Club'
+		verbose_name_plural = 'Clubs'
+
+	def __str__(self):
+		return self.club_number
 
 
 class Job(models.Model):
@@ -66,3 +86,11 @@ class Job(models.Model):
 		("no","no"),
 	)
 	whether_approved = models.CharField(choices=whether_approved_choices, max_length = 10, default="unknown")
+	
+	class Meta:
+		verbose_name = 'Job'
+		verbose_name_plural = 'Jobs'
+
+	def __str__(self):
+		return self.title
+

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
-from .models import Job, Student, StudentJob
+from .models import Club, Job, Student, StudentJob
 
 
 class JobAdmin(admin.ModelAdmin):
@@ -36,14 +36,25 @@ class JobAdmin(admin.ModelAdmin):
 
 class StudentJobAdmin(admin.ModelAdmin):
     
-    def sort_applicants(self, obj):
-        pass
+    list_display = [
+        "student",
+        "job",
+        "status",
+        "student_ranking",
+    ]
+
+    list_filter = ["job", "status"]
                 
 
 class StudentAdmin(admin.ModelAdmin):
 	pass
 
 
+class ClubAdmin(admin.ModelAdmin):
+	pass
+
+
 admin.site.register(Job, JobAdmin)
 admin.site.register(StudentJob, StudentJobAdmin)
 admin.site.register(Student, StudentAdmin)
+admin.site.register(Club, ClubAdmin)
