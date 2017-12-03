@@ -26,19 +26,17 @@ class StudentJob(models.Model):
 	student = models.ForeignKey('Student')
 	job = models.ForeignKey('Job')
 
-	Applied = 1
-	Approved = 2
-	Unapproved = 3
-	Finished = 4
+	
 	status_choices = (
-		(Applied, "applied"),
-		(Approved, "approved"),
-		(Unapproved, 'unapproved'),
-		(Finished, "finished")
+		("applied", "applied"),
+		("approved", "approved"),
+		("disapproved", 'disapproved'),
+		("finished", "finished")
 	)
-	status = models.IntegerField(
+	status = models.CharField(
 		choices=status_choices,
-		default=Applied,
+		max_length = 20,
+		default="applied",
 	)
 
 	written_info = models.CharField(max_length=200, blank=True, null=True)
@@ -60,4 +58,11 @@ class Job(models.Model):
 	hours = models.IntegerField(blank=True, null=True)
 	deadline = models.DateTimeField()
 	additional_info = models.CharField(max_length=200, blank=True, null=True)
-	whether_approved = models.BooleanField(default=True)
+	total = models.IntegerField(blank=True, null=True)
+	
+	whether_approved_choices = (
+		("unknown",'unknown')
+		("yes","approved")
+		("no","no")
+	)
+	whether_approved = models.CharField(choices=whether_approved_choices, max_length = 10, default="unknown")
